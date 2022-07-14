@@ -1,0 +1,171 @@
+{
+	"info": {
+		"_postman_id": "4c568f69-b350-4ac8-a07c-c8b8362e79ce",
+		"name": "CahQ Money Transfer",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Status",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"eval(pm.environment.get('pmlib_code'));\r",
+							"var sig = new pmlib.rs.KJUR.crypto.Signature({\"alg\": \"SHA1withRSA\"});\r",
+							"sig.init(pm.environment.get('CASHQ_SECRET'));\r",
+							"sig.updateString(request.data);\r",
+							"var hash = sig.sign();\r",
+							"const signature = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Hex.parse(hash));\r",
+							"pm.globals.set('X-SIGNATURE', signature);\r",
+							"console.log(signature)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-SIGNATURE",
+						"value": "{{X-SIGNATURE}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"-point\": \"3019\",\r\n  \"status\": {\r\n    \"-id\": \"1637433951456\"\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.mycashq.com/api/extended",
+					"protocol": "https",
+					"host": [
+						"api",
+						"mycashq",
+						"com"
+					],
+					"path": [
+						"api",
+						"extended"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "KYC Validation",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"eval(pm.environment.get('pmlib_code'));\r",
+							"var sig = new pmlib.rs.KJUR.crypto.Signature({\"alg\": \"SHA1withRSA\"});\r",
+							"sig.init(pm.environment.get('CASHQ_SECRET'));\r",
+							"sig.updateString(request.data);\r",
+							"var hash = sig.sign();\r",
+							"const signature = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Hex.parse(hash));\r",
+							"pm.globals.set('X-SIGNATURE', signature);\r",
+							"console.log(signature)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-SIGNATURE",
+						"value": "{{X-SIGNATURE}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"-point\": \"3019\",\r\n  \"advanced\": {\r\n    \"-service\": \"1254\",\r\n    \"-function\": \"kyc_validation\",\r\n    \"attribute\": {\r\n      \"-name\": \"account\",\r\n      \"-value\": \"+11231231212\"\r\n    }\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.mycashq.com/api/extended",
+					"protocol": "https",
+					"host": [
+						"api",
+						"mycashq",
+						"com"
+					],
+					"path": [
+						"api",
+						"extended"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transfer",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"eval(pm.environment.get('pmlib_code'));\r",
+							"var sig = new pmlib.rs.KJUR.crypto.Signature({\"alg\": \"SHA1withRSA\"});\r",
+							"sig.init(pm.environment.get('CASHQ_SECRET'));\r",
+							"sig.updateString(request.data);\r",
+							"var hash = sig.sign();\r",
+							"const signature = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Hex.parse(hash));\r",
+							"pm.globals.set('X-SIGNATURE', signature);\r",
+							"console.log(signature)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-SIGNATURE",
+						"value": "{{X-SIGNATURE}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"-point\": \"3019\",\r\n  \"transfer\": {\r\n    \"-id\": \"1637433951457\",\r\n    \"-sum\": \"500\",\r\n    \"-service\": \"1254\",\r\n    \"-account\": \"+11231231212\",\r\n    \"-date\": \"2020-03-13T20:59:32-0400\",\r\n    \"attribute\": {\r\n      \"-name\": \"tCardNumber\",\r\n      \"-value\": \"5160092570537259\"\r\n    }\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.mycashq.com/api/extended",
+					"protocol": "https",
+					"host": [
+						"api",
+						"mycashq",
+						"com"
+					],
+					"path": [
+						"api",
+						"extended"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
